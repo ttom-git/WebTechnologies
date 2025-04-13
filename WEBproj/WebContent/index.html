@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .lang-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      background: #ddd;
+      border-radius: 20px;
+      width: 60px;
+      height: 30px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .toggle-label span {
+      width: 50%;
+      text-align: center;
+      font-size: 1.2rem;
+      pointer-events: none;
+      line-height: 30px;
+    }
+
+    #langSwitch {
+      display: none;
+    }
+
+    #langSwitch:checked + .toggle-label {
+      background: #ccc;
+    }
+
+    #langSwitch:checked + .toggle-label .flag-left {
+      opacity: 0.4;
+    }
+
+    #langSwitch:not(:checked) + .toggle-label .flag-right {
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+  <!-- Language Switch -->
+  <div class="lang-toggle">
+    <input type="checkbox" id="langSwitch" />
+    <label for="langSwitch" class="toggle-label">
+      <span class="flag-left">🇮🇹</span>
+      <span class="flag-right">🇬🇧</span>
+    </label>
+  </div>
+
+  <!-- Login Form -->
+  <h2 id="title">Login</h2>
+  <form method="post" action="login">
+    <input type="hidden" name="lang" id="langField" value="it" />
+
+    <input type="email" name="email" required placeholder="Email" />
+    <input type="password" name="password" required placeholder="Password" />
+
+    <label id="roleLabel">Accedi come:</label>
+    <select name="tipo" id="roleSelect">
+      <option value="docente" data-it="Docente" data-en="Lecturer">Docente</option>
+      <option value="studente" data-it="Studente" data-en="Student">Studente</option>
+    </select>
+
+    <button type="submit" id="loginBtn">Login</button>
+  </form>
+
+  <script>
+    const langSwitch = document.getElementById("langSwitch");
+    const langField = document.getElementById("langField");
+
+    const title = document.getElementById("title");
+    const roleLabel = document.getElementById("roleLabel");
+    const loginBtn = document.getElementById("loginBtn");
+    const roleSelect = document.getElementById("roleSelect");
+
+    const translations = {
+      it: {
+        title: "Login",
+        roleLabel: "Accedi come:",
+        loginBtn: "Login",
+      },
+      en: {
+        title: "Login",
+        roleLabel: "Sign in as:",
+        loginBtn: "Login",
+      },
+    };
+
+    langSwitch.addEventListener("change", () => {
+      const lang = langSwitch.checked ? "en" : "it";
+      const t = translations[lang];
+
+      title.textContent = t.title;
+      roleLabel.textContent = t.roleLabel;
+      loginBtn.textContent = t.loginBtn;
+
+      for (let option of roleSelect.options) {
+        option.textContent = option.getAttribute(`data-${lang}`);
+      }
+
+      document.documentElement.lang = lang;
+      langField.value = lang;
+    });
+  </script>
+</body>
+</html>
