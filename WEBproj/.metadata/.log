@@ -1,0 +1,26 @@
+!SESSION 2025-04-14 15:03:38.964 -----------------------------------------------
+eclipse.buildId=4.34.0.20241128-0756
+java.version=23.0.2
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=it_IT
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/bobo/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/bobo/.eclipse_keyring
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-14 15:04:03.579
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-14 15:13:29.001
+!MESSAGE Logback config file: /Users/bobo/Documents/GitHub/WebTechnologies/WEBproj/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.7.0.20241001-1350.xml
+!SESSION 2025-04-14 15:15:26.018 -----------------------------------------------
+eclipse.buildId=4.34.0.20241128-0756
+java.version=23.0.2
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=it_IT
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/bobo/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/bobo/.eclipse_keyring
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-14 15:15:31.974
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-14 15:15:38.921
+!MESSAGE Logback config file: /Users/bobo/Documents/GitHub/WebTechnologies/WEBproj/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.7.0.20241001-1350.xml
