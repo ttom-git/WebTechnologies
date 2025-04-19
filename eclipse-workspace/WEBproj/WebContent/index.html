@@ -72,6 +72,23 @@
 
   <!-- Login Form -->
   <h2 id="title">Login</h2>
+ 
+<div id="errorMessage" style="color:red; display:none;"></div>
+<script>
+  const lang = document.documentElement.lang || "it";
+  const messages = {
+    it: "email o password errati",
+    en: "wrong email or password"
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("error") === "1") {
+    const msg = messages[lang] || messages["it"];
+    document.getElementById("errorMessage").textContent = msg;
+    document.getElementById("errorMessage").style.display = "block";
+  }
+</script>
+ 
   <form method="post" action="login">
     <input type="hidden" name="lang" id="langField" value="it" />
 
@@ -125,5 +142,6 @@
       langField.value = lang;
     });
   </script>
+  
 </body>
 </html>

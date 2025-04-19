@@ -13,8 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class CoursesServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;	//idk.. eclipse made me do this
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
 
         PrintWriter out = response.getWriter();

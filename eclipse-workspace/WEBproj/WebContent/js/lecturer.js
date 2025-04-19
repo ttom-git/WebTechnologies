@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         opt.textContent = corso.nome;
         select.appendChild(opt);
       });
+	 
     });
 
   document.getElementById('corsoSelect').addEventListener('change', () => {
@@ -41,3 +42,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+	
+	fetch("/WEBproj/getUserInfo") // NON fetch("getUserInfo") --> ALTRIMENTI   http://localhost:8080/WEBproj/js/getUserInfo
+    .then(res => res.json())
+    .then(data => {
+      console.log("Raw fetch:", data);
+      document.getElementById("welcomeText").textContent = `Benvenuto, ${data.nome} ${data.cognome}`;
+    })
+	.catch(err => console.error("Errore whilst tryina fetch name:", err));
+
+});
+
+
+
