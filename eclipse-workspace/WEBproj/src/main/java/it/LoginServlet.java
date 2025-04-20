@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("name", rs.getString("name"));
                 session.setAttribute("surname", rs.getString("surname"));                
                 session.setAttribute("email",  email);
-                
+                	
                 
                 
                 if ("docente".equals(tipo)) {

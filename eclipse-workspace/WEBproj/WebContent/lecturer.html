@@ -5,7 +5,7 @@
   <title>Docente</title>
 </head>
 <body>
-<h2 id="welcomeText">Benvenuto.</h2>
+  <h2 id="welcomeText">Benvenuto.</h2>
 
   <label>Corso:
     <select id="corsoSelect"></select>
@@ -19,7 +19,12 @@
   <table border="1">
     <thead>
       <tr>
-        <th>Matricola</th><th>Nome</th><th>Cognome</th><th>Email</th>
+        <th data-key="idStudent">Matricola</th>
+        <th data-key="name">Nome</th>
+        <th data-key="surname">Cognome</th>
+        <th data-key="email">Email</th>
+        <th data-key="grade">Voto</th>
+        <th data-key="status">Stato</th>
       </tr>
     </thead>
     <tbody id="tabellaIscritti"></tbody>
