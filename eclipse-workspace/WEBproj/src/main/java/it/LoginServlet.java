@@ -1,6 +1,5 @@
 package it;
 
-import java.io.Console;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -45,15 +44,18 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("userType", tipo);
                 session.setAttribute("name", rs.getString("name"));
                 session.setAttribute("surname", rs.getString("surname"));                
-                session.setAttribute("email",  rs.getString("email"));
+                session.setAttribute("email",  email);
                 
                 
                 
                 if ("docente".equals(tipo)) {
                     response.sendRedirect("lecturer.html");
-                } else {
+                } else if ("studente".equals(tipo)){
                     response.sendRedirect("student.html");
+                } else {
+                    response.sendRedirect("index.html?error=2");
                 }
+             
             } else {
                 response.sendRedirect("index.html?error=1");
             }

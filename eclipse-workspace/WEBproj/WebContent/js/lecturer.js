@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tbody = document.getElementById('tabellaIscritti');
         tbody.innerHTML = '';
         iscritti.forEach(isc => {
-          const row = `<tr><td>${isc.matricola}</td><td>${isc.nome}</td><td>${isc.cognome}</td><td>${isc.email}</td></tr>`;
+          const row = `<tr><td>${isc.idStudent}</td><td>${isc.name}</td><td>${isc.surname}</td><td>${isc.email}</td></tr>`;
           tbody.innerHTML += row;
         });
       });
@@ -44,17 +44,35 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-document.addEventListener('DOMContentLoaded', () => {
-	
-	fetch("/WEBproj/getUserInfo") // NON fetch("getUserInfo") --> ALTRIMENTI   http://localhost:8080/WEBproj/js/getUserInfo
+/*document.addEventListener('DOMContentLoaded', () => {
+  fetch("getUserInfo")
     .then(res => res.json())
     .then(data => {
       console.log("Raw fetch:", data);
-      document.getElementById("welcomeText").textContent = `Benvenuto, ${data.nome} ${data.cognome}`;
-    })
-	.catch(err => console.error("Errore whilst tryina fetch name:", err));
+	  document.getElementById("welcomeText").textContent = `Benvenuto, ${data.name} ${data.surname}`;
 
-});
+    })
+    .catch(err => console.error("Error while fetching student's infos @student.js:", err));	  
+});*/
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetch("getUserInfo")
+    .then(res => res.text())
+    .then(txt => {
+      console.log("── RAW RESPONSE ──\n", txt);
+      try {	//tryin to parse it
+        const data = JSON.parse(txt);
+        console.log("Raw:", data);
+		document.getElementById("welcomeText").textContent = `Benvenuto, ${data.name} ${data.surname}`;
+
+      } catch (e) {
+        console.error("json esploso:", e.getMessage());
+      }
+    })
+	.catch(e => console.error("Errore whilst tryina fetch lecturer infos @lecturers.js:", e));
+	}
+);
+
 
 
 
