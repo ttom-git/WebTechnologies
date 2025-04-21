@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	     corsoSelect.appendChild(opt);
 	   });
 
-	   // Disable appelloSelect until course selected
+	   // disable appelloSelect until course selected
 	   document.getElementById('appelloSelect').disabled = true;
 	 });
 

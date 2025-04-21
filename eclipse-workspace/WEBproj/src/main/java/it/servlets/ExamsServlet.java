@@ -1,4 +1,4 @@
-package it;
+package it.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +13,9 @@ import jakarta.servlet.http.*;
 
 @WebServlet("/api/exams")
 public class ExamsServlet extends HttpServlet {
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private static final long serialVersionUID = 1L;
+
+protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String corsoId = req.getParameter("corsoId");
     resp.setContentType("application/json");
     resp.setCharacterEncoding("UTF-8");
@@ -37,8 +39,7 @@ public class ExamsServlet extends HttpServlet {
       while (rs.next()) {
         int id = rs.getInt("idExam");
         Date d = rs.getDate("date");
-        arr.add(String.format("{\"id\":\"%d\",\"data\":\"%s\"}", 
-                  id, d.toLocalDate().format(fmt)));
+        arr.add(String.format("{\"id\":\"%d\",\"data\":\"%s\"}", id, d.toLocalDate().format(fmt)));
       }
     } catch (Exception e) {
       e.printStackTrace();

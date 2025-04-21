@@ -28,7 +28,7 @@ public class UserInfoServlet extends HttpServlet {
     }
 }
 */
-package it;
+package it.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
