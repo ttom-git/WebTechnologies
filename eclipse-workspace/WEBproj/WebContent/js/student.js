@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	/*---------------------
 	 |	 EXAMS DISPLAY	  |
 	 ----------------------*/
+	 
 	 document.addEventListener('DOMContentLoaded', () => {
 	   fetch('StudentDataServlet')
 	     .then(res => res.json())
@@ -100,13 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	 
 	 
 	/*---------------------
-	 |	 CONFIRM BUTTON	  |
+	 |	 REFUSE BUTTON	  |
 	 ----------------------*/
 
+//https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_display4
 
 function showRefusalConfirm(exam) {
   const popup = document.getElementById('confirmPopup');
-  popup.style.display = 'block';
+  popup.style.display = 'block';	//shouldnt this overlay prev style?	https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_display
 
   document.getElementById('cancelRefuse').onclick = () => {
     popup.style.display = 'none';
@@ -123,9 +125,9 @@ function showRefusalConfirm(exam) {
     }).then(res => {
       if (res.ok) {
         alert("Voto rifiutato con successo.");
-        location.reload(); // refresh list
+        location.reload(); // refresh exams list
       } else {
-        alert("Errore nel rifiuto del voto.");
+        alert("D'oh. Something went wrong");
       }
     });
   };

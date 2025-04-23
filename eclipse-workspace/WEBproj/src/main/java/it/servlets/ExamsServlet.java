@@ -27,7 +27,12 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IO
     }
 
     List<String> arr = new ArrayList<>();
-    String sql = "SELECT idExam, date FROM Exams WHERE idCourse = ? ORDER BY date DESC";
+    String sql = """
+    		SELECT idExam, date 
+    		FROM Exams 
+    		WHERE idCourse = ? 
+    		ORDER BY date DESC
+    		""";
 
     try (Connection c = DataBaseConnection.getConnection();
          PreparedStatement st = c.prepareStatement(sql)) {

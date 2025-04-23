@@ -55,6 +55,7 @@ public class StudentDataServlet extends HttpServlet {
         out.print(json.toString());
     }
 
+	// https://www.geeksforgeeks.org/how-to-escape-strings-in-json/
     private String escapeJson(String s) {
         return s == null ? "" : s.replace("\\", "\\\\")
                                  .replace("\"", "\\\"")

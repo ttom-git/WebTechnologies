@@ -7,7 +7,6 @@ public class ExamResult {
     private String grade;
     private String status;
 
-    // Constructors
     public ExamResult() {}
 
     public ExamResult(int examId, String courseName, String date, String grade, String status) {
@@ -18,7 +17,6 @@ public class ExamResult {
         this.status = status;
     }
 
-    // Getters and Setters
     public int getExamId() {
         return examId;
     }

@@ -63,7 +63,11 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IO
       String email = (String) session.getAttribute("email");
       try (Connection c = DataBaseConnection.getConnection()) {
         PreparedStatement st = c.prepareStatement(
-          "SELECT idStudent FROM Students WHERE email=?"
+        		"""
+        		SELECT idStudent 
+        		FROM Students 
+        		WHERE email=?
+        		"""
         );
         st.setString(1, email);
         ResultSet rs = st.executeQuery();
