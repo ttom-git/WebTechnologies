@@ -1,4 +1,5 @@
 
+let currentExamId = null; 	//this should make it global or smth like that
 
 	/*---------------------
 	 |	 HEADER DISPLAY	  |
@@ -124,11 +125,23 @@ document.addEventListener('DOMContentLoaded', () => {
  // Tryina sort somehow:
  const gradeOrder = [
    "",
+   " ",
    "assente",
    "rimandato",
    "riprovato",
-   //numbers:
-   ...Array.from({length: 13}, (_,i) => String(18 + i)),
+   "18",
+   "19",
+   "20",
+   "21",
+   "22",
+   "23",
+   "24",
+   "25",
+   "26",
+   "27",
+   "28",
+   "29",
+   "30",
    "30 e lode"
  ];
 
@@ -136,9 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
    return row.children[idx].textContent.trim().toLowerCase();
  }
 
- /** 
-  * comparator for a given column index and key
-  */
+ // comparator for a given column index and key
  function comparer(idx, key, asc) {
    return (a, b) => {
      let v1 = getCellValue(a, idx);
@@ -163,6 +174,11 @@ document.addEventListener('DOMContentLoaded', () => {
  }
  
  
+
+ /*-------------------
+  |	 SORTING METHOD  |
+  -------------------*/
+ 
 /*https://www.youtube.com/watch?v=av5wFcAtuEI
 https://stackoverflow.com/questions/55462632/javascript-sort-table-column-on-click
 https://www.reddit.com/r/AskTechnology/comments/a88u9q/absolutely_simplest_way_to_create_a_sortable/?rdt=53649
@@ -182,18 +198,140 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
        const asc = !sortState[key];      // toggle
        sortState[key] = asc;
 
-       // extract rows
        const rows = Array.from(tbody.querySelectorAll("tr"));
-       // sort them
        rows.sort(comparer(idx, key, asc));
-       // re‑append in new order
-       rows.forEach(r => tbody.appendChild(r));
+       rows.forEach(r => tbody.appendChild(r));		   // reappending in new order the (now sorted) rows
+
      });
    });
  }
 
 
+ 
+ /*----------------------------
+  |	 SINGLE-MULTIPLE INSERT   |
+  ----------------------------*/
+
+  const modal = document.getElementById('modal');	
+  modal.style.display = 'none';			//hiding mode initally
+
+  const insertBtn = document.getElementById('insertBtn');
+  insertBtn.disabled = true;	//should keep button disabled until rows are loaded 
+
+  // --------	apppelloSelect handler :	-------------
+  document.getElementById('appelloSelect').addEventListener('change', () => {
+	const appelloId = document.getElementById('appelloSelect').value;
+	currentExamId = appelloId; 	// storing appelloId in session for InserResultServlet 
+
+	 fetch('StoreExamId', {
+	   method: 'POST',
+	   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	   body: `examId=${encodeURIComponent(appelloId)}`
+	 });
+	 insertBtn.disabled = false;
+  });
 
 
+  insertBtn.addEventListener('click', () => {
+    const rows = Array.from(document.querySelectorAll('#tabellaIscritti tr'));
+    const body = document.getElementById('tableBody');
+    body.innerHTML = '';
+
+    rows.forEach(tr => {
+      const status = tr.children[5].textContent.trim().toLowerCase();
+      if (status == 'pending' || status == 'added') { 	// also 'added' cosi che si possa modificare quelli non ancora pubblicati :)  //TODO maybe add a 'modifica' button 
+        const [mat, name, surname, status] = [	//nome cognome maybe unecessary when adding new results: matricola dovrehhe bastare
+          tr.children[0].textContent,
+          tr.children[1].textContent,
+          tr.children[2].textContent,
+		  tr.children[5].textContent.trim().toLowerCase()
+        ];
+
+        const select = document.createElement('select');
+        select.name = 'vote';
+        select.dataset.matricola = mat;
+        select.innerHTML = `
+          <option value="">– seleziona –</option>
+          <option value="absent">assente</option>
+          <option value="rejected">rimandato</option>
+          <option value="retried">riprovato</option>
+		  <option value="18">18</option>
+		  <option value="19">19</option>
+		  <option value="20">20</option>
+		  <option value="21">21</option>
+		  <option value="22">22</option>
+		  <option value="23">23</option>
+		  <option value="24">24</option>
+		  <option value="25">25</option>
+		  <option value="26">26</option>
+		  <option value="27">27</option>
+		  <option value="28">28</option>
+		  <option value="29">29</option>
+		  <option value="30">30</option>
+          <option value="laude">30 e lode</option>
+        `;
+
+        const tr2 = document.createElement('tr');
+        tr2.innerHTML = `
+			<td>${mat}</td>
+			<td>${name}</td>
+			<td>${surname}</td>
+			<td></td>
+			<td>${status}</td>`;
+        tr2.children[3].appendChild(select);
+        body.appendChild(tr2);
+      }
+    });
+    modal.style.display = 'flex';
+  });
+  //cancel button  
+  document.getElementById('cancel').onstatus = () => {
+    modal.style.display = 'none';
+  };
+  //submitButton
+    document.getElementById('form').addEventListener('submit', e => {
+    e.preventDefault(); 	//leave this so it doesnt crashes back - 24 Apr
+
+    const inputs = Array.from(
+      document.querySelectorAll('#tableBody select[name="vote"]')
+    );
+
+    const payload = inputs
+      .filter(sel => sel.value != "")   // only those filled out 
+      .map(sel => ({
+        idStudente: sel.dataset.matricola,
+        grade:      sel.value
+      }));
+
+    if (payload.length === 0) {
+      alert("Devi scegliere almeno un voto >:C");
+      return;
+    }
+    /*fetch('InsertResults', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    })*/
+	fetch('InsertResults', {
+	  method: 'POST',
+	  credentials: 'include',           // <<< mega important so that session is sent( + cookies?)	[for idExam in InsertResultServlet]
+	  headers: { 'Content-Type': 'application/json' },
+	  body: JSON.stringify(payload)
+	})
+
+      .then(r => {
+        if (!r.ok) throw new Error(r.status);
+        return r.text();
+      })
+      .then(() => {
+        alert('Voti inseriti con successo! :D');
+        modal.style.display = 'none';
+        document.getElementById('appelloSelect').dispatchEvent(new Event('change'));	// retrigger appello so gets the changes
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Errore whilst trying inserimento multiplo @lecturer.js');
+      });
+  });
 
 

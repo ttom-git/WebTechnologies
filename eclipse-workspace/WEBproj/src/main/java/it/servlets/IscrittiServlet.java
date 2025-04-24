@@ -26,16 +26,15 @@ public class IscrittiServlet extends HttpServlet {
         }
 
         // Debug
-        System.out.println(">>> IscrittiServlet: fetching for examId=" + examId);
+        System.out.println("- - IscrittiServlet: fetching for examId = " + examId);
 
-        String sql = 
-          "SELECT s.idStudent, s.name, s.surname, s.email, " +
-          "       r.result AS grade, r.status       " +
-          "FROM Results r                         " +
-          "  JOIN Students s ON s.idStudent = r.idStudent " +
-          "WHERE r.idExam = ?                     " +
-          "ORDER BY s.surname, s.name";
-
+        String sql = """
+        		  SELECT s.idStudent, s.name, s.surname, s.email, r.result AS grade, r.status
+		          FROM Results r
+		          JOIN Students s ON s.idStudent = r.idStudent
+		          WHERE r.idExam = ?
+		          ORDER BY s.surname, s.name
+        		""";
         List<String> rows = new ArrayList<>();
 
         try (Connection c = DataBaseConnection.getConnection();
@@ -45,7 +44,13 @@ public class IscrittiServlet extends HttpServlet {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     rows.add(String.format(
-                      "{\"idStudent\":%d,\"name\":\"%s\",\"surname\":\"%s\",\"email\":\"%s\",\"grade\":\"%s\",\"status\":\"%s\"}",
+                      "{\"idStudent\":%d,"
+                      + "\"name\":\"%s\","
+                      + "\"surname\":\"%s\","
+                      + "\"email\":\"%s\","
+                      + "\"grade\":\"%s\","
+                      + "\"status\":\"%s\"}"
+                      ,
                       rs.getInt("idStudent"),
                       rs.getString("name"),
                       rs.getString("surname"),

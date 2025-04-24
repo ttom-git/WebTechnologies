@@ -17,43 +17,23 @@ public class ExamResult {
         this.status = status;
     }
 
-    public int getExamId() {
-        return examId;
-    }
+    public int getExamId() {return examId;}
 
-    public void setExamId(int examId) {
-        this.examId = examId;
-    }
+    public void setExamId(int examId) {this.examId = examId;}
 
-    public String getCourseName() {
-        return courseName;
-    }
+    public String getCourseName() {return courseName;}
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
+    public void setCourseName(String courseName) {this.courseName = courseName;}
 
-    public String getDate() {
-        return date;
-    }
+    public String getDate() {return date;}
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+    public void setDate(String date) {this.date = date;}
 
-    public String getGrade() {
-        return grade;
-    }
+    public String getGrade() {return grade;}
 
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
+    public void setGrade(String grade) {this.grade = grade;}
 
-    public String getStatus() {
-        return status;
-    }
+    public String getStatus() {return status;}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public void setStatus(String status) {this.status = status;}
 }

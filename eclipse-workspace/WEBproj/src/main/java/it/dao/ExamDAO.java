@@ -48,18 +48,22 @@ public class ExamDAO {
 
         // update the status to rej
         public static boolean rejectExamGrade(String studentId, int examId) {
-            //String query = "UPDATE results SET status = ? WHERE idStudent = ? AND idExam = ? AND status != 'verbalized'";
+            /*String query = """
+        			UPDATE results 
+        			SET status = ? 
+        			WHERE idStudent = ? AND idExam = ? AND status != 'verbalized'
+        			""";*/
             String query = """
             			UPDATE results 
             			SET status = ? 
             			WHERE idStudent = ? AND idExam = ? AND status = 'published'
-            		""";		// NON '==' fkweoinfw
+            		""";		// !! NON '==' fkweoinfw !!
 
             try (Connection conn = DataBaseConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement(query)) {
 
                 stmt.setString(1, "rejected");  // status should now be 'rejected'
-                stmt.setInt(2, Integer.valueOf(studentId));   //Integer.valueOf o parseInt? 
+                stmt.setInt(2, Integer.valueOf(studentId));   //Integer.valueOf o parseInt? che differenza c'è lmao
                 stmt.setInt(3, examId); 
 
                 

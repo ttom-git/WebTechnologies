@@ -26,9 +26,9 @@ public class CoursesServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
-        // Get current session and ensure user is a lecturer
+        // get current session
         HttpSession session = request.getSession(false);
-        if (session == null || !"docente".equals(session.getAttribute("userType"))) {
+        if (session == null || !"docente".equals(session.getAttribute("userType"))) {	//double check its a lecturer
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             out.print("[]");
             out.flush();
@@ -39,9 +39,12 @@ public class CoursesServlet extends HttpServlet {
         int lecturerId = -1;
         
         try (Connection conn = DataBaseConnection.getConnection()) {
-            // First, find the lecturer's ID by email
-            try (PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT idLecturer FROM Lecturers WHERE email = ?")) {
+            try (PreparedStatement stmt = conn.prepareStatement("""
+											            		SELECT idLecturer 
+											            		FROM Lecturers 
+											            		WHERE email = ?
+											            		"""))
+            {
                 stmt.setString(1, email);
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
@@ -50,16 +53,20 @@ public class CoursesServlet extends HttpServlet {
                 }
             }
 
-            if (lecturerId < 0) {
-                // No matching lecturer
+            if (lecturerId < 0) {                // no matching lecturer
                 out.print("[]");
                 out.flush();
                 return;
             }
 
-            // Now query courses taught by this lecturer, ordered by name DESC
+            //  query courses of this lecturer, ordered by name DESC
             List<String> coursesJson = new ArrayList<>();
-            String sql = "SELECT idCourse, name FROM Courses WHERE idLecturer = ? ORDER BY name DESC";
+            String sql = """
+            		SELECT idCourse, name 
+            		FROM Courses 
+            		WHERE idLecturer = ? 
+            		ORDER BY name DESC
+            		""";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, lecturerId);
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -71,7 +78,7 @@ public class CoursesServlet extends HttpServlet {
                 }
             }
 
-            // Output JSON array
+            // Output
             out.print("[" + String.join(",", coursesJson) + "]");
         } catch (Exception e) {
             e.printStackTrace();
