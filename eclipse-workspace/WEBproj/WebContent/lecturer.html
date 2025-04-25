@@ -31,14 +31,16 @@
   </table>
 
 <button id="insertBtn">INSERIMENTO MULTIPLO</button>
+<button id="publishBtn">PUBBLICA</button>
 
-<!-- modal -->
-<div id="modal" class="modal" style="position: fixed; top: 0; left: 0; right:0; bottom:0;
-								  	 background: rgba(0,0,0,0.5);
+
+
+<!-- Insert Modal -->				  <!-- https://www.w3schools.com/css/css3_colors.asp -->
+<div id="insertModal" class="modal" style="position: fixed; top: 0; left: 0; right:0; bottom:0;
+								  	 background: rgba(0, 0, 0, 0.5);
 								  	 justify-content: center; 
 								  	 align-items: center;
-								  	 display: none;"> <!-- 'none' at first, otherwise pops up as soon as u log in.. :) found it out the hard way -->
-								  	
+								  	 display: none;"> <!-- 'none' at first cuz otherwise pops up as soon as u log in.. :) -->
   <div class="modal-content" style = "background: white; padding: 20px; border-radius: 8px;">
     <h3>Inserimento multiplo voti</h3>
     <form id="form">
@@ -59,6 +61,35 @@
     </form>
   </div>
 </div>
+
+<!-- Publish Confirmation Modal -->
+<div id="publishModal" class="modal" style="position: fixed; top: 0; left: 0; right:0; bottom:0;
+								  	 background: rgba(0, 0, 0, 0.5);
+								  	 justify-content: center; 
+								  	 align-items: center;
+								  	 display: none;"> <!-- 'none' at first cuz otherwise pops up as soon as u log in.. :) -->
+								
+  <div class="modal-content" style = "background: white; padding: 20px; border-radius: 8px;">
+    <h3>Conferma pubblicazione</h3>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Matricola</th>
+          <th>Nome</th>
+          <th>Cognome</th>
+          <th>Voto</th>
+        </tr>
+      </thead>
+      <tbody id="publishBody">
+        <!-- JS -->
+      </tbody>
+    </table>
+    <p>Sei sicuro?</p>
+    <button id="cancelPublish">ANNULLA</button>
+    <button id="confirmPublish">PUBBLICA</button>
+  </div>
+</div>
+
 
 
   <script src="js/lecturer.js"></script>

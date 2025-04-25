@@ -90,6 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	 });
 });
 
+
+
 	/*----------------------------
 	 |	 FETCH CONTENT DISPLAY   |
 	 ----------------------------*/
@@ -116,6 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
  		//then sort? qonpomxa
  	    makeSortable(tbody.closest("table"));
+		
+		//then updates publishable results
+		updatePublishableResults();
  	  });
    });
  });
@@ -144,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
    "30",
    "30 e lode"
  ];
+ 
 
  function getCellValue(row, idx) {
    return row.children[idx].textContent.trim().toLowerCase();
@@ -156,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
      let v2 = getCellValue(b, idx);
 
      // If sorting by grade, use gradeOrder index
-     if (key === "grade") {
+     if (key == "grade") {
        v1 = gradeOrder.indexOf(v1);
        v2 = gradeOrder.indexOf(v2);
      }
@@ -212,8 +218,8 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
   |	 SINGLE-MULTIPLE INSERT   |
   ----------------------------*/
 
-  const modal = document.getElementById('modal');	
-  modal.style.display = 'none';			//hiding mode initally
+  const insertModal = document.getElementById('insertModal');	
+  insertModal.style.display = 'none';			//hiding mode initally
 
   const insertBtn = document.getElementById('insertBtn');
   insertBtn.disabled = true;	//should keep button disabled until rows are loaded 
@@ -282,11 +288,11 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
         body.appendChild(tr2);
       }
     });
-    modal.style.display = 'flex';
+    insertModal.style.display = 'flex';
   });
   //cancel button  
-  document.getElementById('cancel').onstatus = () => {
-    modal.style.display = 'none';
+  document.getElementById('cancel').onclick = () => {
+    insertModal.style.display = 'none';
   };
   //submitButton
     document.getElementById('form').addEventListener('submit', e => {
@@ -303,7 +309,7 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
         grade:      sel.value
       }));
 
-    if (payload.length === 0) {
+    if (payload.length == 0) {
       alert("Devi scegliere almeno un voto >:C");
       return;
     }
@@ -325,7 +331,7 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
       })
       .then(() => {
         alert('Voti inseriti con successo! :D');
-        modal.style.display = 'none';
+        insertModal.style.display = 'none';
         document.getElementById('appelloSelect').dispatchEvent(new Event('change'));	// retrigger appello so gets the changes
       })
       .catch(err => {
@@ -335,3 +341,88 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
   });
 
 
+  
+  
+
+  /*------------------------
+   |	PUBLISH RESULTS    |
+   ------------------------*/
+	
+   const publishBtn = document.getElementById('publishBtn');
+   publishBtn.disabled = true;
+   const publishModal = document.getElementById('publishModal');
+   const cancelPublish = document.getElementById('cancelPublish');
+   const confirmPublish = document.getElementById('confirmPublish');
+   const publishBody     = document.getElementById('publishBody');
+
+  
+   function updatePublishableResults(){
+		const hasAnyToBePub = Array.from(document.querySelectorAll('#tabellaIscritti tr td:nth-child(6)'))	//gettin 6th child which should be 'STATUS'
+											.filter(td => td.textContent.trim().toLowerCase() == 'added');	//getting all those with 'added' as status
+		
+		console.log('To publish count:', hasAnyToBePub.length);
+		publishBtn.disabled = !(hasAnyToBePub.length > 0);
+		//publishBtn.disabled = false;
+   }
+ 
+   // --- 	on press	---
+   publishBtn.addEventListener('click', () => {
+   		publishBody.innerHTML = ''; // double check empty previous rows
+		
+     	// for each row, copy matricola, nome, cognome, voto
+	 	// order should be	 	0: idStud		1: name		2: surname		3: email	4:voto		5:status
+     	document.querySelectorAll('#tabellaIscritti tr').forEach(row => {
+		       if (row.children[5].textContent.trim().toLowerCase() == 'added') {
+						const tr = document.createElement('tr');
+		         		[0,1,2,4].forEach(i => {	// idSt, name, surname, grade
+								const td = document.createElement('td');
+		           				td.textContent = row.children[i].textContent;
+		           				tr.appendChild(td);
+		         		});
+		        	publishBody.appendChild(tr);
+		    	}
+		});
+
+   		//show
+   		publishModal.style.display = 'flex';
+   });
+
+   
+   
+   //---	cancel btn	 ---
+   cancelPublish.addEventListener('click', () => {
+	//shown't
+     publishModal.style.display = 'none';
+   });
+
+   
+   
+   //---	confirm btn	  ---
+   confirmPublish.addEventListener('click', () => {
+     const toPublish = Array.from( document.querySelectorAll('#tabellaIscritti tr'))
+						     .filter(tr => tr.children[5].textContent.trim().toLowerCase() == 'added')
+						     .map(tr => tr.children[0].textContent.trim());
+
+     fetch('PublishResults', {
+       		method: 'POST',
+       		headers: { 'Content-Type': 'application/json' },
+       		body: JSON.stringify({ examId: currentExamId, students: toPublish })
+     })
+     .then(res => {
+       	if (!res.ok) throw new Error(res.status);
+       	return res.text();
+     })
+     .then(() => {
+       	alert('Voti pubblicati succesfully :D');
+       	publishModal.style.display = 'none';
+       	// refresh  iscritti table
+       	document.getElementById('appelloSelect').dispatchEvent(new Event('change'));
+     })
+     .catch(err => {
+       	console.error(err);
+       	alert('shouldnt be reachable? i hope, @lecturer.js');
+     });
+   });
+
+   
+  

@@ -42,15 +42,20 @@ public class StudentDataServlet extends HttpServlet {
             json.append("{")
                 .append("\"idExam\":").append(r.getExamId()).append(",")
                 .append("\"courseName\":\"").append(escapeJson(r.getCourseName())).append("\",")
-                .append("\"date\":\"").append(r.getDate()).append("\",")
-                .append("\"grade\":\"").append(escapeJson(r.getGrade())).append("\",")
-                .append("\"status\":\"").append(escapeJson(r.getStatus())).append("\"")
-                .append("}");
-            if (i < results.size() - 1) {
-                json.append(",");
+                .append("\"date\":\"").append(r.getDate()).append("\",");
+            if (r.getStatus().equals("pending") || r.getStatus().equals("added")) {		  //tengo separati i casi in cui sta added e pending perché non ha senso faccia vedere il grade
+                json.append("\"grade\":\"\",")
+                    .append("\"status\":\"pending\"");
+            } else {
+                json.append("\"grade\":\"").append(escapeJson(r.getGrade())).append("\",")
+                    .append("\"status\":\"").append(escapeJson(r.getStatus())).append("\"");
             }
+            json.append("}");
+        
+	        if (i < results.size() - 1) {
+	                json.append(",");
+	        }
         }
-
         json.append("]");
         out.print(json.toString());
     }
