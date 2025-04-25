@@ -19,26 +19,24 @@ public class PublishResultsServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
 protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
-    // 1) Read JSON body into String
-    StringBuilder sb = new StringBuilder();
+	//json to string somehow
+	StringBuilder sb = new StringBuilder();
     try (BufferedReader r = req.getReader()) {
       String line;
       while ((line = r.readLine()) != null) sb.append(line);
     }
     String raw = sb.toString().trim();
 
-    // 2) Simple parsing without external libs:
-    //    Expecting {"examId":"34", "students":["1001","1002",...]}
     String examId = raw.replaceAll(".*\"examId\"\\s*:\\s*\"(\\d+)\".*", "$1");
-    List<String> studs = new ArrayList<>();
+    List<String> students = new ArrayList<>();
     Matcher m = Pattern.compile("\"students\"\\s*:\\s*\\[(.*?)\\]").matcher(raw);
     if (m.find()) {
       for (String s : m.group(1).split(",")) {
-        studs.add(s.replaceAll("[^0-9]", ""));
+        students.add(s.replaceAll("[^0-9]", ""));
       }
     }
 
-    // 3) Batch update status → published
+    //update status to 'published' from 'added'
     String sql = """
     				UPDATE results 
     				SET status='published' 
@@ -47,7 +45,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IO
     try (Connection c = DataBaseConnection.getConnection();
          PreparedStatement ps = c.prepareStatement(sql)) {
       int ex = Integer.parseInt(examId);
-      for (String st : studs) {
+      for (String st : students) {
         ps.setInt(1, ex);
         ps.setString(2, st);
         ps.addBatch();
@@ -56,7 +54,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IO
       res.setStatus(HttpServletResponse.SC_OK);
     } catch (Exception e) {
       e.printStackTrace();
-      res.sendError(500, "DB error");
+      res.sendError(500, "Dataobese error");
     }
   }
 }
