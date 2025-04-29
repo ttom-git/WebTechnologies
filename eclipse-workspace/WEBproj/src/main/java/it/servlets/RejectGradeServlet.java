@@ -20,11 +20,9 @@ public class RejectGradeServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
-
+        
         int examIdInt = Integer.parseInt(examId);
-
-       boolean success = ExamDAO.rejectExamGrade(studentId, examIdInt);
-        if (success) {
+        if (ExamDAO.rejectExamGrade(studentId, examIdInt)) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

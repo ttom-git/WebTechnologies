@@ -56,7 +56,7 @@ public class ExamDAO {
             String query = """
             			UPDATE results 
             			SET status = ? 
-            			WHERE idStudent = ? AND idExam = ? AND status = 'published'
+            			WHERE idStudent = ? AND idExam = ? AND status = 'published' AND result IN ('18','19','20','21','22','23','24','25','26','27','28','29','30', 'laude')
             		""";		// !! NON '==' fkweoinfw !!
 
             try (Connection conn = DataBaseConnection.getConnection();
