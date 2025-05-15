@@ -6,14 +6,23 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\feded\OneDrive\Documenti\GitHub\WebTechnologies\eclipse-workspace\WEBproj"/>
 			<item value="/Users/bobo/Documents/GitHub/WebTechnologies/WEBproj"/>
 		</list>
 		<section name="SmartImportWizard.dialogBounds">
 			<item key="DIALOG_X_ORIGIN" value="72"/>
-			<item key="DIALOG_Y_ORIGIN" value="0"/>
-			<item key="DIALOG_WIDTH" value="880"/>
-			<item key="DIALOG_HEIGHT" value="625"/>
-			<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
+			<item key="DIALOG_Y_ORIGIN" value="9"/>
+			<item key="DIALOG_WIDTH" value="935"/>
+			<item key="DIALOG_HEIGHT" value="726"/>
+			<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
 		</section>
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="582"/>
+		<item key="DIALOG_Y_ORIGIN" value="299"/>
+	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
 	</section>
 </section>
