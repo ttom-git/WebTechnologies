@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.beans.Courses;
 import it.beans.ExamResult;
 import it.utils.DataBaseConnection;
 
@@ -18,14 +19,13 @@ public class ExamDAO {
         String query = """
             SELECT er.idExam, c.name AS courseName, e.date, er.result, er.status
             FROM results er
-            JOIN exams e ON er.idExam = e.idExam
-            JOIN courses c ON e.idCourse = c.idCourse
+        		JOIN exams e ON er.idExam = e.idExam
+        		JOIN courses c ON e.idCourse = c.idCourse
             WHERE er.idStudent = ?
             ORDER BY e.date DESC
         """;
 
-        try (Connection conn = DataBaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (Connection conn = DataBaseConnection.getConnection(); 	PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, idStudent);
             ResultSet rs = stmt.executeQuery();
 
@@ -46,6 +46,32 @@ public class ExamDAO {
     }
 
 
+    
+    public static List<Courses> findCoursesByStudentId(String idStudent) {
+        List<Courses> courses = new ArrayList<>();
+        String sql = """
+          SELECT c.idCourse, c.name
+          FROM Courses c
+        	JOIN Enrollments e ON e.idCourse = c.idCourse
+          WHERE e.idStudent = ?
+        """;
+        try ( Connection conn = DataBaseConnection.getConnection();
+              PreparedStatement ps = conn.prepareStatement(sql) ) {
+
+          ps.setString(1, idStudent);
+          try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+              Courses c = new Courses(rs.getInt("idCourse"), rs.getString("name"));
+              courses.add(c);
+            }
+          }
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }
+        return courses;
+    }
+
+
         // update the status to rej
         public static boolean rejectExamGrade(String studentId, int examId) {
             /*String query = """
@@ -59,8 +85,7 @@ public class ExamDAO {
             			WHERE idStudent = ? AND idExam = ? AND status = 'published' AND result IN ('18','19','20','21','22','23','24','25','26','27','28','29','30', 'laude')
             		""";		// !! NON '==' fkweoinfw !!
 
-            try (Connection conn = DataBaseConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(query)) {
+            try (Connection conn = DataBaseConnection.getConnection();	PreparedStatement stmt = conn.prepareStatement(query)) {
 
                 stmt.setString(1, "rejected");  // status should now be 'rejected'
                 stmt.setInt(2, Integer.valueOf(studentId));   //Integer.valueOf o parseInt? che differenza c'è lmao

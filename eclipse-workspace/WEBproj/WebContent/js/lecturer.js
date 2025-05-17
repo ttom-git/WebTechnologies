@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	     appelli.forEach(appello => {
 	       const opt = document.createElement('option');
 	       opt.value = appello.id;
-	       opt.textContent = appello.data;
+	       opt.textContent = appello.date;
 	       appelloSelect.appendChild(opt);
 	 });
 });
