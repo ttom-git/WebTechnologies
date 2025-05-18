@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Personal Area</title>
+  
+  <style>
+  
+    /* TRASH */
+    #trash {
+      display : none;	/*nascondo in default*/
+      
+      border: 2px dashed #aaa;
+      padding: 1rem;
+      margin-top: 1rem;
+      text-align: center;
+      transition: background 0.2s ease;
+      cursor: pointer;
+    }
+    #trash.over {
+      background: #ffe0e0;
+    }
+
+
+    /* POPUP CONFERMA */
+    #confirmPopup {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    /* sfondo bottoni */
+    #confirmPopup::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.3);
+      z-index: -1;
+    }
+    /* bottoni */
+    #confirmPopup button {
+      margin: 0 0.5rem;
+    }
+      
+    /* esito verbalized: testo verde */
+	li.verbalized {
+	  color: green;
+	}
+
+	/* esito rejected: testo rosso */
+	li.rejected {
+	  color: red;
+	}
+   
+  </style>
+</head>
+
+
+	<body>
+		<div id="studentInfo" style="position: absolute; top: 10px; right: 20px; font-weight: bold;"></div>	
+		
+		<h2>I tuoi esiti</h2>
+		
+		<label for="courseSelect">Scegli corso:</label>
+		<select id="courseSelect"><!-- verrà popolato da JS --> </select>
+		
+		<label for="dateSelect">Scegli data appello:</label>
+		<select id="dateSelect" disabled>
+		  <option>— prima seleziona un corso —</option>
+		</select>
+		
+		<ul id="examList"></ul>
+
+		
+		
+		<!-- Trash icon area -->
+		<div id="trash" class="trash-drop-area">X Trascina qui per rifiutare</div>
+		
+		
+		<div id="confirmPopup" style="display: none;">
+		  <p>Vuoi rifiutare questo voto?</p>
+		  <button id="cancelRefuse">CANCELLA</button>
+		  <button id="confirmRefuse">CONFERMA</button>
+		</div>
+		
+	</body>
+	<script src="js/student.js"></script>
+	
+</html>

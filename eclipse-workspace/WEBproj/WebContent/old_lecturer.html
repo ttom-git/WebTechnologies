@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Docente</title>
+</head>
+<body>
+  <h2 id="welcomeText">Benvenuto.</h2>
+
+  <label>Corso:
+    <select id="corsoSelect"></select>
+  </label><br>
+
+  <label>Appello:
+    <select id="appelloSelect"></select>
+  </label><br>
+
+  <h3>Iscritti:</h3>
+  <table border="1">
+    <thead>
+      <tr>
+        <th data-key="idStudent">Matricola</th>
+        <th data-key="name">Nome</th>
+        <th data-key="surname">Cognome</th>
+        <th data-key="email">Email</th>
+        <th data-key="grade">Voto</th>
+        <th data-key="status">Stato</th>
+      </tr>
+    </thead>
+    <tbody id="tabellaIscritti"></tbody>
+  </table>
+
+<button id="insertBtn">INSERIMENTO MULTIPLO</button>
+<button id="publishBtn">PUBBLICA</button>
+
+
+
+<!-- Insert Modal -->				  <!-- https://www.w3schools.com/css/css3_colors.asp -->
+<div id="insertModal" class="modal" style="position: fixed; top: 0; left: 0; right:0; bottom:0;
+								  	 background: rgba(0, 0, 0, 0.5);
+								  	 justify-content: center; 
+								  	 align-items: center;
+								  	 display: none;"> <!-- 'none' at first cuz otherwise pops up as soon as u log in.. :) -->
+  <div class="modal-content" style = "background: white; padding: 20px; border-radius: 8px;">
+    <h3>Inserimento multiplo voti</h3>
+    <form id="form">
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Matricola</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Voto</th>
+            <th>Prev Status</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">	<!-- js --> </tbody>
+      </table>
+      <button type="button" id="cancel">ANNULLA</button>
+      <button type="submit" id="submit">INVIA</button>
+    </form>
+  </div>
+</div>
+
+<!-- Publish Confirmation Modal -->
+<div id="publishModal" class="modal" style="position: fixed; top: 0; left: 0; right:0; bottom:0;
+								  	 background: rgba(0, 0, 0, 0.5);
+								  	 justify-content: center; 
+								  	 align-items: center;
+								  	 display: none;"> <!-- 'none' at first cuz otherwise pops up as soon as u log in.. :) -->
+								
+  <div class="modal-content" style = "background: white; padding: 20px; border-radius: 8px;">
+    <h3>Conferma pubblicazione</h3>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Matricola</th>
+          <th>Nome</th>
+          <th>Cognome</th>
+          <th>Voto</th>
+        </tr>
+      </thead>
+      <tbody id="publishBody">
+        <!-- JS -->
+      </tbody>
+    </table>
+    <p>Sei sicuro?</p>
+    <button id="cancelPublish">ANNULLA</button>
+    <button id="confirmPublish">PUBBLICA</button>
+  </div>
+</div>
+
+
+
+  <script src="js/lecturer.js"></script>
+</body>
+</html>

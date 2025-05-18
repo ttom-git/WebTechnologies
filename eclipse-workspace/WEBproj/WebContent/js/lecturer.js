@@ -219,8 +219,9 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
   ----------------------------*/
 
   const insertModal = document.getElementById('insertModal');	
-  insertModal.style.display = 'none';			//hiding mode initally
-
+  //insertModal.style.display = 'none';			//hiding mode initally
+  insertModal.classList.add('hidden');
+  
   const insertBtn = document.getElementById('insertBtn');
   insertBtn.disabled = true;	//should keep button disabled until rows are loaded 
 
@@ -288,11 +289,13 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
         body.appendChild(tr2);
       }
     });
-    insertModal.style.display = 'flex';
+    //insertModal.style.display = 'flex';
+	insertModal.classList.remove('hidden');
   });
   //cancel button  
   document.getElementById('cancel').onclick = () => {
-    insertModal.style.display = 'none';
+    //insertModal.style.display = 'none';
+	insertModal.classList.add('hidden');
   };
   //submitButton
     document.getElementById('form').addEventListener('submit', e => {
@@ -331,7 +334,8 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
       })
       .then(() => {
         alert('Voti inseriti con successo! :D');
-        insertModal.style.display = 'none';
+        //insertModal.style.display = 'none';
+		insertModal.classList.add('hidden');
         document.getElementById('appelloSelect').dispatchEvent(new Event('change'));	// retrigger appello so gets the changes
       })
       .catch(err => {
@@ -353,7 +357,7 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
    const publishModal = document.getElementById('publishModal');
    const cancelPublish = document.getElementById('cancelPublish');
    const confirmPublish = document.getElementById('confirmPublish');
-   const publishBody     = document.getElementById('publishBody');
+   const publishBody = document.getElementById('publishBody');
 
   
    function updatePublishableResults(){
@@ -384,7 +388,8 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
 		});
 
    		//show
-   		publishModal.style.display = 'flex';
+   		//publishModal.style.display = 'flex';
+		publishModal.classList.remove('hidden');
    });
 
    
@@ -392,7 +397,9 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
    //---	cancel btn	 ---
    cancelPublish.addEventListener('click', () => {
 	//shown't
-     publishModal.style.display = 'none';
+     //publishModal.style.display = 'none';
+	 publishModal.classList.add('hidden')
+
    });
 
    
@@ -414,7 +421,9 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
      })
      .then(() => {
        	alert('Voti pubblicati succesfully :D');
-       	publishModal.style.display = 'none';
+       	//publishModal.style.display = 'none';
+		publishModal.classList.add('hidden')
+
        	// refresh  iscritti table
        	document.getElementById('appelloSelect').dispatchEvent(new Event('change'));
      })

@@ -1,0 +1,149 @@
+:root {
+  --bg-light: #FBFAF9;
+  --text-dark: #191818;
+  --accent: #BF4408;
+  --neutral-border: #ccc;
+}
+
+body {
+  background: var(--bg-light);
+  color: var(--text-dark);
+  font-family: Inter, sans-serif;
+}
+
+/* Container principale */
+.desktop2-desktop2 {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header */
+.desktop2-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #5d62a5;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+.desktop2-header h1 {
+  font-size: 1.5rem;
+  font-style: italic;
+  margin: 0;
+}
+.desktop2-header .subtext {
+  font-size: 1rem;
+  font-weight: bold;
+  opacity: .8;
+}
+
+/* Filtri (select) */
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.filter {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.filter label {
+  margin-bottom: .5rem;
+  font-weight: bold;
+}
+.filter select {
+  padding: .5rem;
+  border: 1px solid var(--neutral-border);
+  border-radius: 4px;
+  background: white;
+}
+
+/* Lista esiti */
+.results h2 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+.results ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.results li {
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--neutral-border);
+}
+.results li.verbalized {
+  color: green;
+}
+.results li.rejected {
+  color: red;
+}
+
+/* Cestino (drop area) */
+#trash {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 64px;
+  height: 64px;
+  cursor: grab;
+  opacity: .8;
+  transition: opacity .2s ease;
+  z-index: 69;         
+  pointer-events: auto;  /* Prende i click/drag */
+}
+#trash.over {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Popup di conferma */
+#confirmPopup {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 1.5rem;
+  border: 1px solid var(--neutral-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  width: 90%;
+  max-width: 320px;
+  text-align: center;
+}
+#confirmPopup::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.3);
+  z-index: -1;
+}
+#confirmPopup p {
+  margin-bottom: 1rem;
+}
+#confirmPopup button {
+  margin: 0 .5rem;
+  padding: .5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#confirmPopup button#cancelRefuse {
+  background: var(--neutral-border);
+  color: var(--text-dark);
+}
+#confirmPopup button#confirmRefuse {
+  background: var(--accent);
+  color: white;
+}
+
+/* Utility */
+.hidden {
+  display: none !important;
+}

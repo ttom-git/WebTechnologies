@@ -195,61 +195,64 @@
 	 |	 TRASH DISPLAY	  |
 	 ----------------------*/
 
+	document.addEventListener('DOMContentLoaded', () => {
+		const trash = document.getElementById('trash');
+		
+		
+		// trascino sopra
+		trash.addEventListener('dragover', e => {
+		  	e.preventDefault();           // permette il drop
+		  	trash.classList.add('over');  // cambia sfondo con .over { background: [qualcosa :)] }
+		});
 	
-	const trash = document.getElementById('trash');
+		// esco dalla zona
+		trash.addEventListener('dragleave', () => {
+		  	trash.classList.remove('over');
+		});
 	
+		// droppo sopra
+		trash.addEventListener('drop', e => {
+		  	e.preventDefault();
+			console.log('>>> exam trashed!', e.dataTransfer.getData('text/plain'));
+		  	trash.classList.remove('over');
 	
-	// trascino sopra
-	trash.addEventListener('dragover', e => {
-	  	e.preventDefault();           // permette il drop
-	  	trash.classList.add('over');  // cambia sfondo con .over { background: [qualcosa :)] }
+		  	const idExam = e.dataTransfer.getData('text/plain');
+		  	if (!idExam) 
+				return;
+	
+			// mostro il popup conferma/cancel
+		  	const popup = document.getElementById('confirmPopup');
+		  	//popup.style.display = 'block';
+			popup.classList.remove('hidden');
+			window._toReject = idExam;
+		});
+	
+		document.getElementById('cancelRefuse').onclick = () => {
+		 	 //document.getElementById('confirmPopup').style.display = 'none';
+			 document.getElementById('confirmPopup').classList.add('hidden');
+		  	window._toReject = null;
+		};
+	
+		document.getElementById('confirmRefuse').onclick = () => {
+			const idExam = window._toReject;
+		  	if (!idExam) 
+				return;
+	
+		 	 fetch('api/RejectGradeServlet', {
+		    	method: 'POST',
+		    	headers: {'Content-Type':'application/x-www-form-urlencoded'},
+		   		body: 'idExam=' + encodeURIComponent(idExam)
+		  	})
+		  	.then(res => {
+		    	if (res.ok) {
+		      		alert('Voto rifiutato correttamente');
+		      		location.reload();
+		    	} else {
+		      	alert('Errore nel rifiuto del voto');
+				}
+		  	});
+		};
 	});
-
-	// esco dalla zona
-	trash.addEventListener('dragleave', () => {
-	  	trash.classList.remove('over');
-	});
-
-	// droppo sopra
-	trash.addEventListener('drop', e => {
-	  	e.preventDefault();
-	  	trash.classList.remove('over');
-
-	  	const idExam = e.dataTransfer.getData('text/plain');
-	  	if (!idExam) 
-			return;
-
-		// mostro il popup conferma/cancel
-	  	const popup = document.getElementById('confirmPopup');
-	  	popup.style.display = 'block';
-		window._toReject = idExam;
-	});
-
-	document.getElementById('cancelRefuse').onclick = () => {
-	 	 document.getElementById('confirmPopup').style.display = 'none';
-	  	window._toReject = null;
-	};
-
-	document.getElementById('confirmRefuse').onclick = () => {
-		const idExam = window._toReject;
-	  	if (!idExam) 
-			return;
-
-	 	 fetch('api/RejectGradeServlet', {
-	    	method: 'POST',
-	    	headers: {'Content-Type':'application/x-www-form-urlencoded'},
-	   		body: 'idExam=' + encodeURIComponent(idExam)
-	  	})
-	  	.then(res => {
-	    	if (res.ok) {
-	      		alert('Voto rifiutato correttamente');
-	      		location.reload();
-	    	} else {
-	      	alert('Errore nel rifiuto del voto');
-			}
-	  	});
-	};
-
 	
 	/*---------------------
 	 |	 EXAMS DISPLAY	  |
@@ -327,10 +330,13 @@
 
 function showRefusalConfirm(exam) {
   	const popup = document.getElementById('confirmPopup');
-  	popup.style.display = 'block';	//shouldnt this overlay prev style?	https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_display
-
+  	//popup.style.display = 'block';	//shouldnt this overlay prev style?	https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_display
+	popup.classList.remove('hidden');
+	
   	document.getElementById('cancelRefuse').onclick = () => {
-    	popup.style.display = 'none';
+    	//popup.style.display = 'none';
+		document.getElementById('confirmPopup').classList.add('hidden');
+
   	};
 
   	document.getElementById('confirmRefuse').onclick = () => {
