@@ -119,6 +119,10 @@ document.addEventListener('DOMContentLoaded', () => {
  		//then sort? qonpomxa
  	    makeSortable(tbody.closest("table"));
 		
+		
+		//then updates insertable resutls
+		updateInsertableResults();
+		
 		//then updates publishable results
 		updatePublishableResults();
  	  });
@@ -222,12 +226,15 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
   //insertModal.style.display = 'none';			//hiding mode initally
   insertModal.classList.add('hidden');
   
+  
+
   const insertBtn = document.getElementById('insertBtn');
   insertBtn.disabled = true;	//should keep button disabled until rows are loaded 
+  insertBtn.classList.add('hidden');
 
   // --------	apppelloSelect handler :	-------------
-  document.getElementById('appelloSelect').addEventListener('change', () => {
-	const appelloId = document.getElementById('appelloSelect').value;
+    function updateInsertableResults(){
+		const appelloId = document.getElementById('appelloSelect').value;
 	currentExamId = appelloId; 	// storing appelloId in session for InserResultServlet 
 
 	 fetch('StoreExamId', {
@@ -235,8 +242,20 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
 	   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 	   body: `examId=${encodeURIComponent(appelloId)}`
 	 });
-	 insertBtn.disabled = false;
-  });
+	 
+	 const pendingRows = Array.from(document.querySelectorAll('#tabellaIscritti tr td:nth-child(6)'))	//gettin 6th child which should be 'STATUS'
+	 									.filter(td => (td.textContent.trim().toLowerCase() == 'pending' || td.textContent.trim().toLowerCase() == 'added'));	//getting all those with 'added' as status
+
+
+	 console.log('To insert count:', pendingRows.length);
+	 if (pendingRows.length > 0) {
+	   insertBtn.classList.remove('hidden');
+	   insertBtn.disabled = false;
+	 } else {
+	   insertBtn.classList.add('hidden');
+	   insertBtn.disabled = true;
+	 }
+  }
 
 
   insertBtn.addEventListener('click', () => {
@@ -354,6 +373,8 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
 	
    const publishBtn = document.getElementById('publishBtn');
    publishBtn.disabled = true;
+   publishBtn.classList.add("hidden");
+
    const publishModal = document.getElementById('publishModal');
    const cancelPublish = document.getElementById('cancelPublish');
    const confirmPublish = document.getElementById('confirmPublish');
@@ -365,7 +386,13 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
 											.filter(td => td.textContent.trim().toLowerCase() == 'added');	//getting all those with 'added' as status
 		
 		console.log('To publish count:', hasAnyToBePub.length);
-		publishBtn.disabled = !(hasAnyToBePub.length > 0);
+		if(hasAnyToBePub.length > 0){
+			publishBtn.disabled = false;
+			publishBtn.classList.remove("hidden");
+		} else {
+			publishBtn.disabled = true;
+			publishBtn.classList.add("hidden");
+		}
 		//publishBtn.disabled = false;
    }
  
@@ -398,7 +425,7 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
    cancelPublish.addEventListener('click', () => {
 	//shown't
      //publishModal.style.display = 'none';
-	 publishModal.classList.add('hidden')
+	 publishModal.classList.add('hidden');
 
    });
 
@@ -422,7 +449,7 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
      .then(() => {
        	alert('Voti pubblicati succesfully :D');
        	//publishModal.style.display = 'none';
-		publishModal.classList.add('hidden')
+		publishModal.classList.add('hidden');
 
        	// refresh  iscritti table
        	document.getElementById('appelloSelect').dispatchEvent(new Event('change'));

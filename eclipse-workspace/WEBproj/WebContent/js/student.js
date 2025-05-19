@@ -203,11 +203,13 @@
 		trash.addEventListener('dragover', e => {
 		  	e.preventDefault();           // permette il drop
 		  	trash.classList.add('over');  // cambia sfondo con .over { background: [qualcosa :)] }
+			//trash.classList.add('animate__animated', 'animate__shake');	//shakin animaz 
 		});
 	
 		// esco dalla zona
 		trash.addEventListener('dragleave', () => {
 		  	trash.classList.remove('over');
+			trash.classList.remove('animate__shake');
 		});
 	
 		// droppo sopra

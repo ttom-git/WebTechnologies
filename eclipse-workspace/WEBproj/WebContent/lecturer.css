@@ -1,204 +1,198 @@
-/* =====================================
-   RESET TELEPORT HQ
-====================================== */
-html { line-height: 1.15; }
-body { margin: 0; font-family: Inter, sans-serif; background: #f9f9f9; }
-*, *::before, *::after { box-sizing: border-box; }
-img { display: block; max-width: 100%; }
-button, select { font: inherit; cursor: pointer; }
-
-/* =====================================
-   WRAPPER GENERALE
-====================================== */
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* =====================================
-   BANNER BLU + FILTRI
-====================================== */
-.banner {
-  position: relative;
-  width: 100%;
-  height: 280px;
-  overflow: hidden;
-}
-
-.banner-bg {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-
-.banner-box {
-  position: absolute;
-  top: 40px; left: 50%;
-  transform: translateX(-50%);
-  width: 90%; max-width: 1200px;
-  height: 120px;
-  background: white;
-  border-radius: 16px;
-  z-index: 1;
-}
-
-.banner-title {
-  position: absolute;
-  top: 65px; left: 25%;
-  transform: translateX(-50%);
-  font-size: 2rem;
-  font-style: italic;
-  color: #fff;
-  z-index: 2;
-}
-
-/* FILTRI centrati in basso nel banner-box */
-.filters {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 13rem;
-  background: #fff;
-  padding: 1rem 1rem;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  z-index: 3;
-}
-
-.filter {
-  display: flex;
-  flex-direction: column;
-}
-
-.filter label {
-  margin-bottom: 0.25rem;
-  font-weight: 600;
-}
-
-.filter select {
-  padding: 0.5rem;
-  min-width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #fff;
-}
-
-/* =====================================
-   TABELLA ISCRITTI (NON FULL-WIDTH)
-====================================== */
-.table-section {
-  width: 100%;
-  background: #ececec;
-  padding: 4rem 1rem 2rem;
-  display: flex;
-  justify-content: center;
-}
-
-.table-section .inner {
-  width: 100%;
-  max-width: 1200px;
-}
-
-.table-section h3 {
-  margin-bottom: 1rem;
-}
-
-.table-section table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table-section th,
-.table-section td {
-  padding: 0.75rem;
-  border: 1px solid #bbb;
-  text-align: left;
-}
-
-/* =====================================
-   AZIONI: BOTTONI
-====================================== */
-.actions {
-  margin: 2rem 0;
-  display: flex;
-  gap: 1.5rem;
-}
-
-.actions button {
-  padding: 0.75rem 1.25rem;
-  border: none;
-  border-radius: 6px;
-  background: #3569c7;
-  color: #fff;
-  font-size: 1rem;
-}
-
-/* =====================================
-   MODALI
-====================================== */
-.modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-}
-
-.modal.hidden {
-  display: none !important;
-}
-
-.modal-content {
-  background: #ececec;
-  padding: 1.5rem;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 600px;
-}
-
-.modal-content h3 {
-  margin-top: 0;
-}
-
-.modal-content table {
-  width: 100%;
-  margin: 1rem 0;
-  border-collapse: collapse;
-}
-
-.modal-content th,
-.modal-content td {
-  padding: 0.5rem;
-  border: 1px solid #aaa;
-}
-
-.modal-actions {
-  text-align: right;
-  margin-top: 1rem;
-}
-
-.modal-actions button {
-  margin-left: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-}
-
-#cancel,
-#cancelPublish {
-  background: #bbb;
-  color: #222;
-}
-
-#submit,
-#confirmPublish {
-  background: #3569c7;
-  color: #fff;
-}
+	/* teleporthq */
+	html { line-height: 1.15; }
+	body { margin: 0; font-family: Inter, sans-serif; background: #f9f9f9; }
+	*, *::before, *::after { box-sizing: border-box; }
+	img { display: block; max-width: 100%; }
+	button, select { font: inherit; cursor: pointer; }
+	
+	/* Wrapper generale */	
+	.wrapper {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	}
+	
+	/* Banner benv + filtri */
+	.banner {
+	  position: relative;
+	  width: 100%;
+	  height: 280px;
+	  overflow: hidden;
+	}
+	
+	.banner-bg {
+	  position: absolute;
+	  top: 0; left: 0;
+	  width: 100%; height: 100%;
+	  object-fit: cover;
+	  z-index: 0;
+	}
+	
+	.banner-box {
+	  position: absolute;
+	  top: 40px; left: 50%;
+	  transform: translateX(-50%);
+	  width: 90%; max-width: 1200px;
+	  height: 120px;
+	  background: white;
+	  border-radius: 16px;
+	  z-index: 1;
+	}
+	
+	.banner-title {
+	  position: absolute;
+	  top: 65px; left: 25%;
+	  transform: translateX(-50%);
+	  font-size: 2rem;
+	  font-style: italic;
+	  color: #fff;
+	  z-index: 2;
+	}
+	
+	/* FILTRI */
+	.filters {
+	  position: absolute;
+	  bottom: 10px;
+	  left: 50%;
+	  transform: translateX(-50%);
+	  display: flex;
+	  gap: 13rem;
+	  background: #fff;
+	  padding: 1rem 1rem;
+	  border-radius: 20px;
+	  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+	  z-index: 3;
+	}
+	
+	.filter {
+	  display: flex;
+	  flex-direction: column;
+	}
+	
+	.filter label {
+	  margin-bottom: 0.25rem;
+	  font-weight: 600;
+	}
+	
+	.filter select {
+	  padding: 0.5rem;
+	  min-width: 200px;
+	  border: 1px solid #ccc;
+	  border-radius: 4px;
+	  background: #fff;
+	}
+	
+	/* Tabella iscritti */
+	.table-section {
+	  width: 100%;
+	  background: #ececec;
+	  padding: 4rem 1rem 2rem;
+	  display: flex;
+	  justify-content: center;
+	}
+	
+	.table-section .inner {
+	  width: 80%;
+	  max-width: 1200px;
+	}
+	
+	.table-section h3 {
+	  margin-bottom: 1rem;
+	}
+	
+	.table-section table {
+	  width: 100%;
+	  border-collapse: collapse;
+	}
+	
+	.table-section th,
+	.table-section td {
+	  padding: 0.75rem;
+	  border: 1px solid #bbb;
+	  text-align: left;
+	}
+	
+	/* Bottoni  */
+	
+	.actions {
+	  margin: 2rem 0;
+	  display: flex;
+	  gap: 1.5rem;
+	}
+	
+	.actions button {
+	  padding: 0.75rem 1.25rem;
+	  border: none;
+	  border-radius: 6px;
+	  background: #3569c7;
+	  color: #fff;
+	  font-size: 1rem;
+	}
+	
+	/* Modali */
+	
+	.modal {
+	  position: fixed;
+	  top: 0; left: 0; right: 0; bottom: 0;
+	  background: rgba(0,0,0,0.5);
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  z-index: 10;
+	}
+	
+	.modal.hidden {
+	  display: none !important;
+	}
+	
+	.hidden{
+	  display: none !important;
+	}
+	
+	.modal-content {
+	  background: #ececec;
+	  padding: 1.5rem;
+	  border-radius: 8px;
+	  width: 90%;
+	  max-width: 600px;
+	}
+	
+	.modal-content h3 {
+	  margin-top: 0;
+	}
+	
+	.modal-content table {
+	  width: 100%;
+	  margin: 1rem 0;
+	  border-collapse: collapse;
+	}
+	
+	.modal-content th,
+	.modal-content td {
+	  padding: 0.5rem;
+	  border: 1px solid #aaa;
+	}
+	
+	.modal-actions {
+	  text-align: right;
+	  margin-top: 1rem;
+	}
+	
+	.modal-actions button {
+	  margin-left: 0.5rem;
+	  padding: 0.5rem 1rem;
+	  border: none;
+	  border-radius: 4px;
+	}
+	
+	#cancel,
+	#cancelPublish {
+	  background: #bbb;
+	  color: #222;
+	}
+	
+	#submit,
+	#confirmPublish {
+	  background: #3569c7;
+	  color: #fff;
+	}
