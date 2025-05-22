@@ -6,11 +6,10 @@
 	import java.sql.PreparedStatement;
 	import java.sql.ResultSet;
 	import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+	import java.util.List;
 
-import it.beans.Courses;
-import it.utils.DataBaseConnection;
+	import it.beans.Courses;
+	import it.utils.DataBaseConnection;
 	import jakarta.servlet.ServletException;
 	import jakarta.servlet.annotation.WebServlet;
 	import jakarta.servlet.http.HttpServlet;
