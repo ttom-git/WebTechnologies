@@ -137,7 +137,7 @@
 					switch (r.status){
 						case 'verbalized': 							
 							li.textContent = `${r.courseName} – ${r.date} – Voto: ${r.grade}`;
-							// da fare tipo verde o verbalizzato
+							// TODO: magari tipo verde o verbalizzato
 							li.classList.add('verbalized');
 							ul.appendChild(li);
 							

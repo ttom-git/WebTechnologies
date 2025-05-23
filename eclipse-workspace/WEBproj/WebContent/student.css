@@ -99,7 +99,7 @@ body {
   opacity: .8;
   transition: opacity .2s ease;
   z-index: 69;         
-  pointer-events: auto;  /* Prende i click/drag */
+  pointer-events: auto;  /* prende click/drag */
 }
 
 
@@ -176,7 +176,7 @@ body {
   color: white;
 }
 
-/* Altro */
+
 .hidden {
   display: none !important;
 }

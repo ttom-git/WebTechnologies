@@ -1,4 +1,4 @@
-package it.servlets;
+package it.servlets.Lecturers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,8 +25,7 @@ public class IscrittiServlet extends HttpServlet {
             return;
         }
 
-        // Debug
-        System.out.println("- - IscrittiServlet: fetching for examId = " + examId);
+        System.out.println(" - IscrittiServlet: fetching for examId = " + examId);
 
         String sql = """
         		  SELECT s.idStudent, s.name, s.surname, s.email, r.result AS grade, r.status

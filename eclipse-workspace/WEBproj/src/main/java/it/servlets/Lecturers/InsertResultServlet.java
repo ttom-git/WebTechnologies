@@ -1,4 +1,4 @@
-package it.servlets;
+package it.servlets.Lecturers;
 
 import java.io.BufferedReader;
 import java.io.IOException;

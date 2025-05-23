@@ -1,4 +1,4 @@
-package it.servlets;
+package it.servlets.Login;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -117,6 +117,7 @@ public class LoginServlet extends HttpServlet {
         	session.setAttribute("surname", rs.getString("surname"));
         	session.setAttribute("email", email);
         	if ("docente".equals(tipo)) {
+        	    session.setAttribute("idLecturer", rs.getString("idLecturer"));
         	    response.sendRedirect("lecturer.html");
         	} else {
         	    session.setAttribute("idStudent", rs.getString("idStudent"));

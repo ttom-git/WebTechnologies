@@ -1,4 +1,4 @@
-package it.servlets;
+package it.servlets.Students;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +12,6 @@ import it.utils.DataBaseConnection;
 public class StudentsResultsServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("idStudent") == null) {
@@ -60,8 +59,11 @@ public class StudentsResultsServlet extends HttpServlet {
 	                    status = status == null ? "" : status.replace("\"","\\\"");
 	
 	                    String json = String.format(
-	                      "{\"idExam\":%s,\"courseName\":\"%s\",\"date\":\"%s\"," +
-	                      "\"grade\":\"%s\",\"status\":\"%s\"}",
+	                      "{\"idExam\":%s,"
+	                      + "\"courseName\":\"%s\","
+	                      + "\"date\":\"%s\"," 
+	                      +"\"grade\":\"%s\","
+	                      + "\"status\":\"%s\"}",
 	                      idExam, course, date, grade, status
 	                    );
 	                    out.print(json);

@@ -1,4 +1,55 @@
 
+ /*---------------------
+  |   TOAST DISPLAY     |
+  ----------------------*/
+
+ function showToast(message) {
+   if (!showToast.initialized) {
+     if (!document.getElementById('bs-icons')) {
+       const link = document.createElement('link');
+       link.id = 'bs-icons';
+       link.rel = 'stylesheet';
+       link.href = 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css';
+       document.head.appendChild(link);
+     }
+
+     const tpl = `
+       <div class="toast-container position-fixed bottom-0 end-0 p-3">
+         <div id="liveToast"
+              class="toast align-items-center border-0"
+              role="alert"
+              aria-live="assertive"
+              aria-atomic="true"
+              data-bs-delay="3000">
+           <div class="toast-header bg-success text- #5e63a6">
+             <i class="bi bi-check-circle-fill me-2"></i>
+             <strong class="me-auto">Successo</strong>
+             <small class="text-muted ms-2" id="liveToastTime"></small>
+             <button type="button"
+                     class="btn-close btn-close-white ms-2 mb-1"
+                     data-bs-dismiss="toast"
+                     aria-label="Close"></button>
+           </div>
+           <div class="toast-body" id="liveToastBody"></div>
+         </div>
+       </div>`;
+     document.body.insertAdjacentHTML('beforeend', tpl);
+
+     showToast.el    = document.getElementById('liveToast');
+     showToast.body  = document.getElementById('liveToastBody');
+     showToast.time  = document.getElementById('liveToastTime');
+     showToast.toast = bootstrap.Toast.getOrCreateInstance(showToast.el);
+
+     showToast.initialized = true;
+   }
+
+   showToast.body.textContent = message;
+   showToast.time.textContent = new Date().toLocaleTimeString();
+	showToast.toast.show(); 
+}
+
+
+
 let currentExamId = null; 	//this should make it global or smth like that
 
 	/*---------------------
@@ -125,6 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		
 		//then updates publishable results
 		updatePublishableResults();
+		
+		//then updates verbalizable resutls
+		updateVerbalizableResults();
  	  });
    });
  });
@@ -265,7 +319,7 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
 
     rows.forEach(tr => {
       const status = tr.children[5].textContent.trim().toLowerCase();
-      if (status == 'pending' || status == 'added') { 	// also 'added' cosi che si possa modificare quelli non ancora pubblicati :)  //TODO maybe add a 'modifica' button 
+      if (status == 'pending' || status == 'added') { 	// also 'added' cosi che si possa modificare quelli non ancora pubblicati :)  
         const [mat, name, surname, status] = [	//nome cognome maybe unecessary when adding new results: matricola dovrehhe bastare
           tr.children[0].textContent,
           tr.children[1].textContent,
@@ -352,7 +406,9 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
         return r.text();
       })
       .then(() => {
-        alert('Voti inseriti con successo! :D');
+        //alert('Voti inseriti con successo! :D');
+		showToast('Voti inseriti con successo! :D');
+
         //insertModal.style.display = 'none';
 		insertModal.classList.add('hidden');
         document.getElementById('appelloSelect').dispatchEvent(new Event('change'));	// retrigger appello so gets the changes
@@ -447,7 +503,9 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
        	return res.text();
      })
      .then(() => {
-       	alert('Voti pubblicati succesfully :D');
+       	//alert('Voti pubblicati succesfully :D');
+		showToast('Voti pubblicati succesfully :D');
+
        	//publishModal.style.display = 'none';
 		publishModal.classList.add('hidden');
 
@@ -458,6 +516,65 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
        	console.error(err);
        	alert('shouldnt be reachable? i hope, @lecturer.js');
      });
+   });
+
+   
+   
+
+
+   /*------------------------
+    |	VERBALIZE RESULTS   |
+    ------------------------*/
+   const verbalizeBtn = document.getElementById('verbalizeBtn');
+   verbalizeBtn.disabled = true;
+   verbalizeBtn.classList.add('hidden');
+
+   /** 
+    * Show or hide + enable the Verbalizza button
+    * whenever the table is refreshed.
+    */
+   function updateVerbalizableResults() {
+     const anyPublished = Array.from(
+       document.querySelectorAll('#tabellaIscritti tr td:nth-child(6)')
+     ).some(td => td.textContent.trim().toLowerCase() === 'published');
+
+     if (anyPublished) {
+       verbalizeBtn.classList.remove('hidden');
+       verbalizeBtn.disabled = false;
+     } else {
+       verbalizeBtn.classList.add('hidden');
+       verbalizeBtn.disabled = true;
+     }
+   }
+
+   
+   // When the user clicks "Verbalizza"…
+   verbalizeBtn.addEventListener('click', () => {
+     const toVerbalize = Array.from(
+       document.querySelectorAll('#tabellaIscritti tr')
+     )
+       .filter(tr =>
+         tr.children[5].textContent.trim().toLowerCase() === 'published'
+       )
+       .map(tr => tr.children[0].textContent.trim());
+
+     fetch('verbalizeResults', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ examId: currentExamId, students: toVerbalize })
+     })
+       .then(res => {
+         if (!res.ok) throw new Error(res.status);
+         return res.json();
+       })
+       .then(data => {
+         // Navigate the browser to the new verbale page
+         window.location.href = data.url;
+       })
+       .catch(err => {
+         console.error(err);
+         showToast('Errore durante la verbalizzazione', { delay: 3000 });
+       });
    });
 
    

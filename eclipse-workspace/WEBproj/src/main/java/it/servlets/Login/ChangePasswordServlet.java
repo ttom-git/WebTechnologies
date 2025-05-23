@@ -1,4 +1,4 @@
-package it.servlets;
+package it.servlets.Login;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -28,7 +28,7 @@ public class ChangePasswordServlet extends HttpServlet {
         String newPassword  = request.getParameter("newPassword");
 
         if (email == null || tipo == null || newPassword == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parametri mancanti");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "smth missing");
             return;
         }
         //picka tab giusta
@@ -54,8 +54,8 @@ public class ChangePasswordServlet extends HttpServlet {
             ps.setString(2, email);
             int updated = ps.executeUpdate();
             if (updated != 1) {
-                // nessuna riga aggiornata -> email non trovata
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Utente non trovato");
+                // nessuna riga aggiornata -> email non trovata (fa anche rima lmao)
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "utente non trovato");
                 return;
             }
             // OK: restituisci 200

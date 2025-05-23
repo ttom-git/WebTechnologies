@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="it">
+<style>
+.record-banner-title {
+  position: absolute;
+  top: 65px;
+  left: 25%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  font-style: italic;
+  color: #5e63a6;
+  z-index: 2;
+}
+
+.record-banner {
+  position: relative;
+
+  width: 98%;
+
+  height: 190px;
+
+  overflow: hidden;
+}
+</style>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>Records</title>
+  
+  <link rel="stylesheet" href="lecturer.css" />
+  
+</head>
+<body>
+  <div class="wrapper">
+    <header class="record-banner">
+      <h1 class="record-banner-title">Storico Records</h1>
+      <a href="lecturer.html" class="btn">← Torna</a>
+    </header>
+
+    <section class="table-section">
+      <div class="inner">
+      	<table id="recordsTable">
+		  <thead>
+		    <tr>		      
+		     <th>Corso</th>
+		      <th>ID</th>
+		      <th>Data Creazione</th>
+		      <th>Data Appello</th>
+		      <th>Scarica</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <!-- popolato da JS -->
+		  </tbody>
+		</table>
+
+      </div>
+    </section>
+  </div>
+
+  <script src="js/records.js"></script>
+</body>
+</html>

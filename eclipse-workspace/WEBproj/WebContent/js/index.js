@@ -9,8 +9,6 @@ const pwdModal = new bootstrap.Modal(document.getElementById("pwdModal"));
 
 let pendingEmail, pendingTipo;
 
-// https://stackoverflow.com/questions/42980645/easier-way-to-transform-formdata-into-query-string
-
 function formDataToUrlEncoded(formData) {
 	const params = new URLSearchParams();
   		for (const [k, v] of formData.entries()) {
