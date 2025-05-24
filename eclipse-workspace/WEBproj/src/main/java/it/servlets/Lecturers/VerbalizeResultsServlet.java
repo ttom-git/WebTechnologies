@@ -25,7 +25,7 @@ public class VerbalizeResultsServlet extends HttpServlet {
         return examId + ".txt";
     }
 
-    @Override
+
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader r = req.getReader()) {
@@ -85,25 +85,28 @@ public class VerbalizeResultsServlet extends HttpServlet {
         	   }
            }
 
+           
             /*-----------
              |	 .TXT	|
              -----------*/
+           
            String filesDir = getServletContext().getRealPath("/files");
-           File dir       = new File(filesDir);
-           if (!dir.exists()) dir.mkdirs();
+           File dir = new File(filesDir);
+           if (!dir.exists()) 
+        	   dir.mkdirs();
 
            File outFile = new File(dir, link);
-           try (PrintWriter fw = new PrintWriter(new OutputStreamWriter(
-        		   new FileOutputStream(outFile), StandardCharsets.UTF_8))) {
+           try (PrintWriter fw = new PrintWriter( new OutputStreamWriter( new FileOutputStream(outFile), StandardCharsets.UTF_8))) {
         	   System.out.println("Writing file to: " + outFile.getAbsolutePath());
-        	   String sel = """
-            			  SELECT s.idStudent, s.name, s.surname, r.result
-            			  FROM Results r
-            			    JOIN Students s ON s.idStudent = r.idStudent
-            			  WHERE r.idExam = ? AND r.status = 'verbalized'
-            			  ORDER BY s.surname, s.name
-            				""";
-        	   try (PreparedStatement ps = conn.prepareStatement(sel)) {
+        	   sql = """
+            			SELECT s.idStudent, s.name, s.surname, r.result
+        	   			FROM Results r
+        	   		   	  JOIN Students s ON s.idStudent = r.idStudent
+            			WHERE r.idExam = ? AND (r.status = 'verbalized' OR r.status = 'rejected')
+        	   		    ORDER BY s.surname, s.name
+        	   		""";
+        	   
+        	   try (PreparedStatement ps = conn.prepareStatement(sql)) {
         		   ps.setInt(1, Integer.parseInt(examId));	
         		   try (ResultSet rs = ps.executeQuery()) {
         			   while (rs.next()) {

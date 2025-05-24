@@ -50,7 +50,7 @@ public class RecordsServlet extends HttpServlet {
   				  SELECT s.idStudent, s.name, s.surname, r.result
   				  FROM Results r
   				    JOIN Students s ON s.idStudent = r.idStudent
-  				  WHERE r.idExam = ? AND r.status = 'verbalized'
+  				  WHERE r.idExam = ? AND (r.status = 'verbalized' OR r.status = 'rejected')
   				  ORDER BY s.surname, s.name
   					""";
 	      try (PreparedStatement ps = c.prepareStatement(sql)) {

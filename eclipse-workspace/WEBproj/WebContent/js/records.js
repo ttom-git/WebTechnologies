@@ -15,15 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
       		records.forEach(r => {
         		const tr = document.createElement('tr');
         		tr.innerHTML = `<td>${r.course}</td>
+								<td>${r.id}</td>
           						<td>${new Date(r.date).toLocaleString()}</td>
-          						<td>${r.id}</td>
           						<td>${new Date(r.examDate).toLocaleDateString()}</td>
 						        <td><a href="files/${r.link}" download>${r.link}</a></td>
 						        `;
         		tbody.appendChild(tr);
       			});
 	  
-      	/*		if (typeof makeSortable === 'function')
+      	/*		if (typeof makeSortable == 'function')
         			makeSortable(document.getElementById('recordsTable'));
 	  			else 
 					console.error('maekSortable function not found')

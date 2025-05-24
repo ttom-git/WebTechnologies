@@ -13,17 +13,19 @@ public class RecordsApiServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	    HttpSession session = req.getSession(false);
-	    String lectId = (session != null)
+	    String lecturerId = (session != null)
 	    	     ? (String) session.getAttribute("idLecturer")
 	    		 : null;
 	
-	    if (lectId == null) {
+	    if (lecturerId == null) {
 	      resp.sendError(401, "Not logged in");
 	      return;
 	    }
 	
+	    //passo dati in json
 	    resp.setContentType("application/json");
 	    resp.setCharacterEncoding("UTF-8");
+	    
 	    String sql = """
 				  SELECT r.idRecords AS id,
 							r.date AS date,
@@ -38,7 +40,7 @@ public class RecordsApiServlet extends HttpServlet {
 	    			""";
 	    try (Connection c = DataBaseConnection.getConnection();	
 	    	 PreparedStatement ps = c.prepareStatement(sql)) {
-	    		ps.setInt(1, Integer.valueOf(lectId));
+	    		ps.setInt(1, Integer.valueOf(lecturerId));
 	    		try (ResultSet rs = ps.executeQuery()) {
 	    				StringBuilder json = new StringBuilder("[");
 	    				boolean first = true;
