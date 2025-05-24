@@ -124,7 +124,7 @@
 	
 
 	function loadResult(idExam) {
-		console.log('→ loadResult() chiamato con idExam =', idExam);
+		console.log('- loadResult() chiamato con idExam =', idExam);
 	  	fetch(`api/results?idExam=${idExam}`)
 	    	.then(res => res.json())
 	    	.then(r => {
@@ -135,32 +135,48 @@
 				const li = document.createElement('li');
 				//se verbalized o rejected showo, se published trash displayed, 'Voto non ancora definito' altrimenti
 					switch (r.status){
-						case 'verbalized': 							
+						case 'verbalized':
 							li.textContent = `${r.courseName} – ${r.date} – Voto: ${r.grade}`;
 							// TODO: magari tipo verde o verbalizzato
 							li.classList.add('verbalized');
 							ul.appendChild(li);
-							
+									
 							trash.style.display = 'none';
 							break;
+						
 							
 						case 'published':
-							li.textContent = `${r.courseName} – ${r.date} – Voto: ${r.grade}`;
-			
-							li.draggable = true;
-						  	li.dataset.idExam = idExam;
-		
-						  	li.addEventListener('dragstart', e => {
-						    	e.dataTransfer.setData('text/plain', idExam);
-						    	e.target.style.opacity = '0.6';
-						  	});
-						  	li.addEventListener('dragend', e => {
-						    	e.target.style.opacity = '';	//dovrebbe ripristinare stile base
-						  	})
-						  	ul.appendChild(li);
-						  
-						  	trash.style.display = 'block'; // display trash area
-						  	break;
+							console.log(r.grade);
+								if(r.grade == 'rejected' || r.grade == 'retried' || r.grade == 'absent'){
+									console.log('  rejected, retried or absent:', r);
+
+									li.textContent = `${r.courseName} – ${r.date} – Voto: ${r.grade}`;
+									//da fare tipo rosso o scritta rejected 
+									li.classList.add('rejected');
+									ul.appendChild(li);
+
+									trash.style.display = 'none';
+									break;
+									
+								}else{
+									li.textContent = `${r.courseName} – ${r.date} – Voto: ${r.grade}`;
+					
+									li.draggable = true;
+								  	li.dataset.idExam = idExam;
+				
+								  	li.addEventListener('dragstart', e => {
+								    	e.dataTransfer.setData('text/plain', idExam);
+								    	e.target.style.opacity = '0.6';
+								  	});
+								  	li.addEventListener('dragend', e => {
+								    	e.target.style.opacity = '';	//dovrebbe ripristinare stile base
+								  	})
+								  	ul.appendChild(li);
+								  
+								  	trash.style.display = 'block'; // display trash area
+								  	break;
+								}
+								break;
 		
 							
 						case 'rejected':
