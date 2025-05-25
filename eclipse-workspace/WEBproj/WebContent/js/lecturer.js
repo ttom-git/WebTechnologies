@@ -219,18 +219,18 @@ document.addEventListener('DOMContentLoaded', () => {
      let v1 = getCellValue(a, idx);
      let v2 = getCellValue(b, idx);
 
-     // If sorting by grade, use gradeOrder index
+     // if sorting by grade=> use gradeOrder index
      if (key == "grade") {
        v1 = gradeOrder.indexOf(v1);
        v2 = gradeOrder.indexOf(v2);
      }
 
-     // Try numeric compare first
+     // try numeric compare first
      const n1 = parseFloat(v1), n2 = parseFloat(v2);
      if (!isNaN(n1) && !isNaN(n2)) {
        return asc ? n1 - n2 : n2 - n1;
      }
-     // Otherwise string compare
+     // otherwise string compare
      if (v1 < v2) return asc ? -1 : 1;
      if (v1 > v2) return asc ? 1 : -1;
      return 0;
@@ -349,7 +349,7 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
 		  <option value="29">29</option>
 		  <option value="30">30</option>
           <option value="laude">30 e lode</option>
-        `;
+        `;	// :)
 
         const tr2 = document.createElement('tr');
         tr2.innerHTML = `
@@ -382,7 +382,7 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
       .filter(sel => sel.value != "")   // only those filled out 
       .map(sel => ({
         idStudente: sel.dataset.matricola,
-        grade:      sel.value
+        grade: sel.value
       }));
 
     if (payload.length == 0) {
@@ -478,10 +478,10 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
    
    
    //---	cancel btn	 ---
-   cancelPublish.addEventListener('click', () => {
-	//shown't
-     //publishModal.style.display = 'none';
-	 publishModal.classList.add('hidden');
+   		cancelPublish.addEventListener('click', () => {
+		//shown't
+     	//publishModal.style.display = 'none';
+	 	publishModal.classList.add('hidden');
 
    });
 
@@ -499,7 +499,8 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
        		body: JSON.stringify({ examId: currentExamId, students: toPublish })
      })
      .then(res => {
-       	if (!res.ok) throw new Error(res.status);
+       	if (!res.ok) 
+			throw new Error(res.status);
        	return res.text();
      })
      .then(() => {
@@ -530,7 +531,7 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
    verbalizeBtn.classList.add('hidden');
 
    /** 
-    * Show or hide + enable the Verbalizza button
+    * show or hide + enable the Verbalizza button
     * whenever the table is refreshed.
     */
    function updateVerbalizableResults() {
@@ -548,7 +549,7 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
    }
 
    
-   // When the user clicks "Verbalizza"…
+   // when click on "verbalizza""
    verbalizeBtn.addEventListener('click', () => {
      const toVerbalize = Array.from(
        document.querySelectorAll('#tabellaIscritti tr')
@@ -571,10 +572,14 @@ https://phuoc.ng/collection/html-dom/sort-a-table-by-clicking-its-headers/
          // Navigate the browser to the new verbale page
          window.location.href = data.url;
        })
-       .catch(err => {
-         console.error(err);
-         showToast('Errore durante la verbalizzazione', { delay: 3000 });
-       });
+       .catch(err => {        
+		 console.error(err);
+		 if (err.error === 'DUPLICATE_ENTRY') {
+		   alert('Duplicate entry');
+		 } else {
+		   alert('Errore durante la verbalizzazion');
+       	 }
+	   })
    });
 
    

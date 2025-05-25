@@ -128,9 +128,17 @@ public class VerbalizeResultsServlet extends HttpServlet {
            resp.setCharacterEncoding("UTF-8");
            String url = req.getContextPath() + "/records?id=" + recordId;
            resp.getWriter().write("{\"url\":\"" + url + "\"}");
-       } catch (Exception e) {
-    	e.printStackTrace();
-       }
+           
+       } catch (SQLIntegrityConstraintViolationException e) {
+    	    resp.setStatus(HttpServletResponse.SC_CONFLICT);
+    	    resp.setContentType("application/json");
+    	    resp.getWriter().write("{\"error\": \"DUPLICATE_ENTRY\"}");
+    	} catch (SQLException e) {
+    	    resp.setStatus(500);
+    	    resp.setContentType("application/json");
+    	    resp.getWriter().write("{\"error\": \"GENERIC_SQL_ERROR\"}");
+    	}
+
 
     }
 }
