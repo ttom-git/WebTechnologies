@@ -57,26 +57,56 @@ public class RecordsServlet extends HttpServlet {
 	    	  	ps.setInt(1, examId);
 
 		    	  	//render HTML
-		    	out.println("<!DOCTYPE html><html><head><meta charset='utf-8'><title>Verbale</title></head><body>");
-		        out.printf("<h1>Verbale #%d</h1>%n", recId);
-		        out.printf("<p><strong>Appello:</strong> %d<br/><strong>Data:</strong> %s<br/>", examId, date.toString());
-		        out.printf("Scarica verbale: <a href='files/%s'>%s</a></p>%n", link, link);
-		        out.println("<table border='1'><tr><th>Matricola</th><th>Nome</th><th>Cognome</th><th>Voto</th></tr>");
+		    	out.println("""
+		    			<!DOCTYPE html>
+		    				<html>
+		    					<head>
+		    						<meta charset='utf-8'>
+		    						<title>Verbale</title>
+		    					</head>
+		    					<body>
+		    				""");
+		        out.printf("""
+				        		<h1>Verbale #%d</h1>%n
+				        		""", recId);
+		        out.printf("""
+		        				<p>
+			        				<strong>Appello:</strong> %d<br/>
+			        				<strong>Data:</strong> %s<br/>
+			        				""", examId, date.toString());
+		        out.printf("""
+		        					Scarica verbale: <a href='files/%s'>%s</a>
+		        				</p>
+		        				%n
+		        				""", link, link);
+		        out.println("""
+		        		<table border='1'>
+		        			<tr>
+		        				<th>Matricola</th>
+		        				<th>Nome</th>
+		        				<th>Cognome</th>
+		        				<th>Voto</th>
+		        			</tr>
+		        		""");
 		        try (ResultSet rs = ps.executeQuery()) {
 		        	while (rs.next()) {
-		        		out.printf("<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td></tr>%n",
-		        				rs.getInt("idStudent"),
-		        				rs.getString("name"),
-		        				rs.getString("surname"),
-		        				rs.getString("result")
-		        				);
+		        		out.printf("""
+	        				<tr>
+	        					<td>%d</td>
+	        					<td>%s</td>
+	        					<td>%s</td>
+	        					<td>%s</td>
+	        				</tr>
+	        				%n
+	        				""", rs.getInt("idStudent"), rs.getString("name"), rs.getString("surname"), rs.getString("result")
+		       			);
 		        	}
 		        }
 		        out.println("</table></body></html>");
 		    }
 	
 	    } catch (Exception e) {
-	    	throw new RuntimeException("@RecordServlet.java " + e);
+	    	throw new RuntimeException("final catch @RecordServlet.java " + e);
 	    }
   }
 }

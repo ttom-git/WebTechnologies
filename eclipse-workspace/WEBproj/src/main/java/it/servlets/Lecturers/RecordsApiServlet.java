@@ -47,8 +47,9 @@ public class RecordsApiServlet extends HttpServlet {
 	    				while (rs.next()) {
 	    					if (!first) {
 	    						json.append(",");
-	    						first = false;
+	    						//first = false;
 	    					}
+    						first = false;
 	    				json.append("{")
 	    					.append("\"id\":").append(rs.getInt("id")).append(",")
 	    					.append("\"date\":\"").append(rs.getTimestamp("date")).append("\",")
