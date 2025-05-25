@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/api/RejectGradeServlet")
+@WebServlet("/api/refuseGrade")
 public class RejectGradeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

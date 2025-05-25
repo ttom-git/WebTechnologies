@@ -256,11 +256,12 @@
 		  	if (!idExam) 
 				return;
 	
-		 	 fetch('api/RejectGradeServlet', {
-		    	method: 'POST',
-		    	headers: {'Content-Type':'application/x-www-form-urlencoded'},
-		   		body: 'idExam=' + encodeURIComponent(idExam)
-		  	})
+			fetch('api/refuseGrade', {
+				method: 'POST',
+			  	headers: {'Content-Type':'application/x-www-form-urlencoded'},
+			  	body: 'idExam=' + encodeURIComponent(idExam)
+			})
+
 		  	.then(res => {
 		    	if (res.ok) {
 		      		alert('Voto rifiutato correttamente');
@@ -346,6 +347,7 @@
 
 //https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_display4
 
+/*
 function showRefusalConfirm(exam) {
   	const popup = document.getElementById('confirmPopup');
   	//popup.style.display = 'block';	//shouldnt this overlay prev style?	https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_style_display
@@ -361,10 +363,8 @@ function showRefusalConfirm(exam) {
     	fetch('api/refuseGrade', {
       		method: 'POST',
       		headers: {'Content-Type': 'application/json'},
-      		body: JSON.stringify({
-        		examId: exam.idExam,
-        		studentId: currentStudentId
-      		})
+  			body: 'idExam=' + encodeURIComponent(exam)
+      
     	}).then(res => {
       		if (res.ok) {
         		alert("Voto rifiutato con successo.");
@@ -374,6 +374,6 @@ function showRefusalConfirm(exam) {
       		}
     	});
   	};
-}
+}*/
 
 
